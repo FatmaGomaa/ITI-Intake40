@@ -8,10 +8,11 @@
 /*  - the GPIO Config API receives a structure that holds the information of the 					*/
 /*    passed pin                                                                                    */
 /*  - GPIO write, writes both High and Low Values on Pin. If it's output, it writes to ODR. If it's */
-/*    input it writes to IDR.                                                                       */
+/*    input it writes to ODR to turn the pull up or pull down register.                        		*/
 /*	- GPIO getPinValue returns the reading of a single bit.                                         */
 /*                                                                                                  */
-/*                                                                                                  */
+/* V1.1 Solved a bug in GPIO_STD_ERROR_Config,the function was writing over the past values which is*/
+/* not what we seek, every write cycle shouldn't affect the values of the other pins.               */
 /****************************************************************************************************/
 
 #include "STD_TYPES.h"
@@ -21,11 +22,11 @@
 STD_ERROR 	GPIO_STD_ERROR_Config(GPIO_t * GPIO_Config){
 	STD_ERROR Local_ErrorStatus = NOT_OK;
 	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*) GPIO_Config->PORT;
-	u32 temp_GPIO_CRX = 0;
+	u32 temp_GPIO_CRX = LOW;
 
 	if(GPIO_Config->PIN < 8){
 		temp_GPIO_CRX = GPIO_Config_Struct->GPIO_CRL;
-		temp_GPIO_CRX &=~ (0b1111) << (4*(GPIO_Config->PIN));
+		temp_GPIO_CRX &=~ ((0b1111) << (4*(GPIO_Config->PIN)));
 		temp_GPIO_CRX |= GPIO_Config->MOOD << (4*(GPIO_Config->PIN));
 		GPIO_Config_Struct->GPIO_CRL = temp_GPIO_CRX;
 		if(GPIO_Config_Struct->GPIO_CRL == temp_GPIO_CRX){
@@ -33,7 +34,7 @@ STD_ERROR 	GPIO_STD_ERROR_Config(GPIO_t * GPIO_Config){
 		}
 	}else{
 		temp_GPIO_CRX = GPIO_Config_Struct->GIPO_CRH;
-		temp_GPIO_CRX &=~ (0b1111) << (4*(GPIO_Config->PIN -8 ));
+		temp_GPIO_CRX &=~ ((0b1111) << (4*(GPIO_Config->PIN -8 )));
 		temp_GPIO_CRX |=GPIO_Config->MOOD << (4*(GPIO_Config->PIN -8));
 		GPIO_Config_Struct->GIPO_CRH = temp_GPIO_CRX;
 		if(GPIO_Config_Struct->GIPO_CRH == temp_GPIO_CRX){
@@ -46,20 +47,23 @@ STD_ERROR 	GPIO_STD_ERROR_Config(GPIO_t * GPIO_Config){
 STD_ERROR GPIO_STD_ERROR_writePin(GPIO_t * GPIO_Config, u8 OutputValue){
 	STD_ERROR Local_ErrorStatus = NOT_OK;
 	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*) GPIO_Config->PORT;
-	if(OutputValue == 1){
-		GPIO_Config_Struct->GPIO_BSRR = 1 << (GPIO_Config->PIN);
-	}else if(OutputValue == 0){
-		GPIO_Config_Struct->GIPO_BRR = 1 << (GPIO_Config->PIN);
+	if(OutputValue == HIGH){
+		GPIO_Config_Struct->GPIO_BSRR = HIGH << (GPIO_Config->PIN);
+	}else if(OutputValue == LOW){
+		GPIO_Config_Struct->GIPO_BRR = HIGH << (GPIO_Config->PIN);
 	}
-	/*if(GPIO_Config_Struct->GIPO_ODR == ( GPIO_Config_Struct->GIPO_ODR | (1 << (GPIO_Config->PIN)) )){
+	if(GPIO_Config_Struct->GIPO_ODR == ( GPIO_Config_Struct->GIPO_ODR & (HIGH << (GPIO_Config->PIN)) )){
 		Local_ErrorStatus=OK;
-	}*/
+	}
 	Local_ErrorStatus=OK;
 	return Local_ErrorStatus;
 
 }
 
 u8 GPIO_u8getPinValue(GPIO_t * GPIO_Config){
+	u8 Local_ReturnValue=HIGH;
 	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*) GPIO_Config->PORT;
-	return (GPIO_Config_Struct->GPIO_IDR >> GPIO_Config->PIN)&1 ;
+	//trace_printf("Pin Value %d \n", (GPIO_Config_Struct->GPIO_IDR >> GPIO_Config->PIN)&1);
+	Local_ReturnValue= (GPIO_Config_Struct->GPIO_IDR >> GPIO_Config->PIN)&HIGH;
+	return Local_ReturnValue;
 }

@@ -90,8 +90,8 @@ typedef enum {
 }BUS;
 
 /*RCC_stdErrorControlClock enables or disables one of the three clocks based on the user input, which is one of the following:
- * first argument is an object of the CLOCK_TYPE enum with one of the following values:  HSI_ON			HSE_ON			PLL_ON
- * second argument is an object of the CLOCK_STATUS enum with one of the following values: ON				OFF
+ * First argument: is an object of the CLOCK_TYPE enum with one of the following values:  [HSI_ON,HSE_ON,PLL_ON]
+ * second argument is an object of the CLOCK_STATUS enum with one of the following values: [ON,OFF]
  * returns status of the operation whether it's ok or not*/
 STD_ERROR RCC_stdErrorControlClock(u8 copy_u8ClockType, u8 copy_u8ClockStatus);
 
@@ -99,7 +99,7 @@ STD_ERROR RCC_stdErrorControlClock(u8 copy_u8ClockType, u8 copy_u8ClockStatus);
  * {for HSI -> HSI_SW,  for HSE -> HSE_SW,  for PLL -> PLL_SW} */
 STD_ERROR RCC_stdErrorSetSYSClock(u8 copy_u8SystemClock);
 
-/*RCC_stdErrorGetSYSClock returns the selected system clock*/
+/*RCC_stdErrorGetSYSClock takes a pointer to variable that will store the value of selected system clock*/
 STD_ERROR RCC_stdErrorGetSYSClock(u8 *copy_u8SystemClock);
 
 /*RCC_stdErrorConfigPLL takes one of the following values for

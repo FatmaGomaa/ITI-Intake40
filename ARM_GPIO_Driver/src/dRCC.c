@@ -1,3 +1,17 @@
+/***************************************************************************************************/
+/* 											RCC Driver												*/
+/*                                                                                                  */
+/*  Created on	: Jan 14, 2020                                                                      */
+/*  Author		: FatmaGomaa  																		*/
+/*  Versions	:																					*/
+/*  V1 -> in this version:																			*/
+/*  - ControlClock 	API let the user choose the clock source and its state [ON-OFF	]               */
+/*  - Set System Clock API selects the System Clock by taking its name                              */
+/*	- get System Clock API returns the System Clock by taking its name                              */
+/*  - ControlPerihperal enables the clock on the selected peripheral                                */
+/*  - ConfigPLL takes the System clock for Pll and selects the Mult Value                           */
+/*                                                                                                  */
+/****************************************************************************************************/
 
 #include "dRCC.h"
 #include "STD_TYPES.h"
@@ -44,49 +58,51 @@
 #define RCC_CR_PLL_MCO_MASK					0x07000000
 #define RCC_CR_PLL_MCO_CLEAR_MASK			0xF8FFFFFF
 
-/*RCC_stdErrorControlClock enables one of the three clocks based on the user input, which is one of the following:
- * RCC_CR_HSI_ON_MASK			RCC_CR_HSE_ON_MASK				RCC_CR_PLL_ON_MASK
+/*RCC_stdErrorControlClock enables or disables one of the three clocks based on the user input, which is one of the following:
+ * First argument: is an object of the CLOCK_TYPE enum with one of the following values:  [HSI_ON,HSE_ON,PLL_ON]
+ * second argument is an object of the CLOCK_STATUS enum with one of the following values: [ON,OFF]
  * returns status of the operation whether it's ok or not*/
 STD_ERROR RCC_stdErrorControlClock(u8 copy_u8ClockType, u8 copy_u8ClockStatus){
-	STD_ERROR ControlClockReturn = NOT_OK;
+	STD_ERROR Local_ControlClockReturnStatus = OK;
 	switch(copy_u8ClockType){
 	case HSI_ON:
 			if(copy_u8ClockStatus == ON){
 				RCC_CR |= RCC_CR_HSI_ON_MASK;
 				while(!(RCC_CR & RCC_CR_HSI_RDY_MASK));
-					return OK;
+					return Local_ControlClockReturnStatus;
 
 			}else if(copy_u8ClockStatus == OFF) {
 				RCC_CR &=~ RCC_CR_HSI_ON_MASK;
 				while((RCC_CR & RCC_CR_HSI_RDY_MASK));
-					return OK;
+					return Local_ControlClockReturnStatus;
 			}
 		break;
 	case HSE_ON:
 		if(copy_u8ClockStatus == ON){
 			RCC_CR |= RCC_CR_HSE_ON_MASK;
 			while( !(RCC_CR & RCC_CR_HSE_RDY_MASK) );
-			return OK;
+			return Local_ControlClockReturnStatus;
 		}else{
 			RCC_CR &=~ RCC_CR_HSE_ON_MASK;
 			while( (RCC_CR & RCC_CR_HSE_RDY_MASK) );
-			return OK;
+			return Local_ControlClockReturnStatus;
 		}
 		break;
 	case PLL_ON:
 		if(copy_u8ClockStatus == ON){
 			RCC_CR |= RCC_CR_PLL_ON_MASK;
 			while( !(RCC_CR & RCC_CR_PLL_RDY_MASK) );
-			return OK;
+			return Local_ControlClockReturnStatus;
 		}else{
 			RCC_CR &=~ RCC_CR_PLL_ON_MASK;
 			while( (RCC_CR & RCC_CR_PLL_RDY_MASK) );
-			return OK;
+			return Local_ControlClockReturnStatus;
 		}
 		break;
 
 	}
-	return NOT_OK;
+	Local_ControlClockReturnStatus =  NOT_OK;
+	return Local_ControlClockReturnStatus;
 }
 
 
@@ -94,26 +110,28 @@ STD_ERROR RCC_stdErrorControlClock(u8 copy_u8ClockType, u8 copy_u8ClockStatus){
  * {for HSI -> HSI_SW,  for HSE -> HSE_SW,  for PLL -> PLL_SW}
  * */
 STD_ERROR RCC_stdErrorSetSYSClock(u8 copy_u8SystemClock){
-	STD_ERROR ControlClockReturn = NOT_OK;
+	STD_ERROR Local_ControlClockReturnStatus = OK;
 	u8 local_temp = RCC_CFGR;
 	local_temp &=RCC_CFGR_SW_CLEAR_MASK;
 	local_temp |= copy_u8SystemClock;
 	RCC_CFGR = local_temp;
 	if( (RCC_CFGR & RCC_CFGR_SW_MASK)  ==  copy_u8SystemClock){
-		return OK;
+		return Local_ControlClockReturnStatus;
 	}
-	return NOT_OK;
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
 }
 
-/*RCC_stdErrorGetSYSClock returns the selected system clock*/
+/*RCC_stdErrorGetSYSClock takes a pointer to variable that will store the value of selected system clock*/
 STD_ERROR RCC_stdErrorGetSYSClock(u8 *copy_u8SystemClock){
-	STD_ERROR ControlClockReturn = NOT_OK;
+	STD_ERROR Local_ControlClockReturnStatus = OK;
 	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_SW_MASK);
 	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_SW_MASK) ){
 		trace_printf("%d         hi",*copy_u8SystemClock);
-		return OK;
+		return Local_ControlClockReturnStatus;
 	}
-	return NOT_OK;
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
 }
 
 /*RCC_stdErrorConfigPLL takes one of the following values for
@@ -130,7 +148,7 @@ PLL_INPUT_CLOCK_X_12, PLL_INPUT_CLOCK_X_13, PLL_INPUT_CLOCK_X_14, PLL_INPUT_CLOC
 PLL_INPUT_CLOCK_X_16 */
 
 STD_ERROR RCC_stdErrorConfigPLL(u8 copy_u8PLLClockSource, u32 copy_u8PLLMultiplicationFactor){
-	STD_ERROR ControlClockReturn = NOT_OK;
+	STD_ERROR Local_ControlClockReturnStatus = OK;
 	u32 local_temp;
 
 	switch(copy_u8PLLClockSource){
@@ -142,7 +160,7 @@ STD_ERROR RCC_stdErrorConfigPLL(u8 copy_u8PLLClockSource, u32 copy_u8PLLMultipli
 		RCC_CFGR = local_temp;
 		//if((RCC_CFGR & RCC_CR_PLL_MUL_MASK) == (copy_u8PLLMultiplicationFactor)){
 			   trace_printf("PLL Configured with %d \n", copy_u8PLLMultiplicationFactor);
-			return OK;
+			return Local_ControlClockReturnStatus;
 		//}
 
 		break;
@@ -153,7 +171,7 @@ STD_ERROR RCC_stdErrorConfigPLL(u8 copy_u8PLLClockSource, u32 copy_u8PLLMultipli
 		local_temp |= copy_u8PLLMultiplicationFactor;
 		RCC_CFGR = local_temp;
 		if((RCC_CFGR & RCC_CR_PLL_MUL_MASK) == copy_u8PLLMultiplicationFactor){
-			return OK;
+			return Local_ControlClockReturnStatus;
 		}
 		break;
 	case PLLSRC_HSE_DIVIDED_BY_2:
@@ -164,12 +182,13 @@ STD_ERROR RCC_stdErrorConfigPLL(u8 copy_u8PLLClockSource, u32 copy_u8PLLMultipli
 		local_temp |= copy_u8PLLMultiplicationFactor;
 		RCC_CFGR = local_temp;
 		if((RCC_CFGR & RCC_CR_PLL_MUL_MASK) == copy_u8PLLMultiplicationFactor){
-			return OK;
+			return Local_ControlClockReturnStatus;
 		}
 		break;
 
 	}
-	return NOT_OK;
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
 }
 
 STD_ERROR RCC_stdErrorControlPerihperal(u8 copy_u8Bus, u32 copy_u32Peripheral, u8 status){
