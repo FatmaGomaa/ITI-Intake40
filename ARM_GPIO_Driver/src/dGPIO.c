@@ -12,7 +12,9 @@
 /*	- GPIO getPinValue returns the reading of a single bit.                                         */
 /*                                                                                                  */
 /* V1.1 Solved a bug in GPIO_STD_ERROR_Config,the function was writing over the past values which is*/
-/* not what we seek, every write cycle shouldn't affect the values of the other pins.               */
+/* not what we seek, every write cycle shouldn't affect the values of the other pins.   			*/
+/* 																									*/
+/* V1.2 added GPIO_STD_ERROR_writePort to set the Whole Port Value once.				            */
 /****************************************************************************************************/
 
 #include "STD_TYPES.h"
@@ -59,6 +61,17 @@ STD_ERROR GPIO_STD_ERROR_writePin(GPIO_t * GPIO_Config, u8 OutputValue){
 	return Local_ErrorStatus;
 
 }
+
+STD_ERROR GPIO_STD_ERROR_writePort(PORT_REGISTERS * PORT, u8 OutputValue){
+	STD_ERROR Local_ErrorStatus = NOT_OK;
+	PORT->GIPO_ODR = OutputValue;
+	if(PORT->GIPO_ODR == OutputValue){
+		Local_ErrorStatus=OK;
+	}
+	return Local_ErrorStatus;
+
+}
+
 
 u8 GPIO_u8getPinValue(GPIO_t * GPIO_Config){
 	u8 Local_ReturnValue=HIGH;

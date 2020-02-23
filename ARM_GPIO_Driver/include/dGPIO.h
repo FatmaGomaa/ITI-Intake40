@@ -81,9 +81,26 @@ typedef enum{
  * 3 main elements that the user chooses
  * 1. PORT in range PORT_A, PORT_B, PORT_C
  * 2. PIN in range PIN_0 .... PIN_15
- * 3. MOOD in range INPUT_X to OUTPUT_X*/
+ * 3. MOOD in range INPUT_X to OUTPUT_X
+ *
+ * and it returns Standard error whether the function did it job or failed*/
 STD_ERROR GPIO_STD_ERROR_Config(GPIO_t * GPIO_Config);
+
+/*The function takes a pointer to structure and output value to be written on the pin, the structure has
+ * 3 main elements that the user chooses
+ * 1. PORT in range PORT_A, PORT_B, PORT_C
+ * 2. PIN in range PIN_0 .... PIN_15
+ * 3. MOOD in range INPUT_X to OUTPUT_X
+ * and it returns Standard error whether the function did it job or failed*/
 STD_ERROR GPIO_STD_ERROR_writePin(GPIO_t * GPIO_Config, u8 OutputValue);
+
+/*The function takes a pointer to the Port and output value to be written on the port.
+ * the port has the following options:
+ * PORT_X and X in range [A,B,C]
+ * and it returns Standard error whether the function did it job or failed*/
+STD_ERROR GPIO_STD_ERROR_writePort(PORT_REGISTERS * PORT, u8 OutputValue);
+
+/*The function returns the value of the input pin*/
 u8 GPIO_u8getPinValue(GPIO_t * GPIO_Config);
 
 #endif /* DGPIO_H_ */
