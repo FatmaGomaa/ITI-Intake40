@@ -11,7 +11,7 @@
 #define PORT_A		                            ((volatile PORT_REGISTERS*)0x40010800)
 #define PORT_B		                            ((volatile PORT_REGISTERS*)0x40010C00)
 #define PORT_C		                            ((volatile PORT_REGISTERS*)0x40011000)
-
+/*
 #define PIN_0									0
 #define PIN_1									1
 #define PIN_2									2
@@ -28,8 +28,23 @@
 #define PIN_13									13
 #define PIN_14									14
 #define PIN_15									15
-
-
+*/
+#define PIN_0									0x0001
+#define PIN_1									0x0002
+#define PIN_2									0x0004
+#define PIN_3									0x0008
+#define PIN_4									0x0010
+#define PIN_5									0x0020
+#define PIN_6									0x0040
+#define PIN_7									0x0080
+#define PIN_8									0x0100
+#define PIN_9									0x0200
+#define PIN_10									0x0400
+#define PIN_11									0x0800
+#define PIN_12									0x1000
+#define PIN_13									0x2000
+#define PIN_14									0x4000
+#define PIN_15									0x8000
 
 typedef enum{
 	INPUT_ANALOG_MODE							=0B0000,
@@ -80,19 +95,18 @@ typedef enum{
 /*The function takes a pointer to structure, the structure has
  * 3 main elements that the user chooses
  * 1. PORT in range PORT_A, PORT_B, PORT_C
- * 2. PIN in range PIN_0 .... PIN_15
+ * 2. PIN in range PIN_0 .... PIN_15 or multiple pins through ORING them
  * 3. MOOD in range INPUT_X to OUTPUT_X
  *
  * and it returns Standard error whether the function did it job or failed*/
 STD_ERROR GPIO_STD_ERROR_Config(GPIO_t * GPIO_Config);
 
-/*The function takes a pointer to structure and output value to be written on the pin, the structure has
- * 3 main elements that the user chooses
+/*The function takes 3 arguments PORT, PIN and output value to be written on the pin, the arguments have on of the following values
  * 1. PORT in range PORT_A, PORT_B, PORT_C
  * 2. PIN in range PIN_0 .... PIN_15
- * 3. MOOD in range INPUT_X to OUTPUT_X
+ * 3. OuputValue in range HIGH or LOW
  * and it returns Standard error whether the function did it job or failed*/
-STD_ERROR GPIO_STD_ERROR_writePin(GPIO_t * GPIO_Config, u8 OutputValue);
+STD_ERROR GPIO_STD_ERROR_writePin(u32 PORT, u32 PIN, u8 OutputValue);
 
 /*The function takes a pointer to the Port and output value to be written on the port.
  * the port has the following options:
@@ -100,8 +114,10 @@ STD_ERROR GPIO_STD_ERROR_writePin(GPIO_t * GPIO_Config, u8 OutputValue);
  * and it returns Standard error whether the function did it job or failed*/
 STD_ERROR GPIO_STD_ERROR_writePort(PORT_REGISTERS * PORT, u8 OutputValue);
 
-/*The function returns the value of the input pin*/
-u8 GPIO_u8getPinValue(GPIO_t * GPIO_Config);
+/*The function returns the value of the input pin on the specified PORT
+ * 1. PORT in range PORT_A, PORT_B, PORT_C
+ * 2. PIN in range PIN_0 .... PIN_15*/
+u8 GPIO_u8getPinValue(u32 PORT, u32 PIN);
 
 #endif /* DGPIO_H_ */
 

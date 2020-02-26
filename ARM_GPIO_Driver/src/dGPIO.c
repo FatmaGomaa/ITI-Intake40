@@ -15,6 +15,10 @@
 /* not what we seek, every write cycle shouldn't affect the values of the other pins.   			*/
 /* 																									*/
 /* V1.2 added GPIO_STD_ERROR_writePort to set the Whole Port Value once.				            */
+/*																									*/
+/* V1.3 *GPIO_STD_ERROR_Config takes multiple pins (ORED) together                                  */
+/* 	   	*GPIO_STD_ERROR_writePin takes the PORT,PIN,OUTPUT as arguments                             */
+/*		*GPIO_u8getPinValue takes the PORT,PIN as arguments                                         */
 /****************************************************************************************************/
 
 #include "STD_TYPES.h"
@@ -22,39 +26,58 @@
 
 
 STD_ERROR 	GPIO_STD_ERROR_Config(GPIO_t * GPIO_Config){
+	u8 Local_u8Iteration=0;
 	STD_ERROR Local_ErrorStatus = NOT_OK;
 	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*) GPIO_Config->PORT;
-	u32 temp_GPIO_CRX = LOW;
-
-	if(GPIO_Config->PIN < 8){
-		temp_GPIO_CRX = GPIO_Config_Struct->GPIO_CRL;
-		temp_GPIO_CRX &=~ ((0b1111) << (4*(GPIO_Config->PIN)));
-		temp_GPIO_CRX |= GPIO_Config->MOOD << (4*(GPIO_Config->PIN));
-		GPIO_Config_Struct->GPIO_CRL = temp_GPIO_CRX;
-		if(GPIO_Config_Struct->GPIO_CRL == temp_GPIO_CRX){
+	u32 temp_GPIO_CRL = LOW;
+	u32 temp_GPIO_CRH = LOW;
+	if(GPIO_Config->PIN <= 0x00FF){
+		temp_GPIO_CRL = GPIO_Config_Struct->GPIO_CRL;
+		for(Local_u8Iteration=0;Local_u8Iteration<8;Local_u8Iteration++){
+			if(( (GPIO_Config->PIN >> Local_u8Iteration) & 0x0001) == 1 ){
+				temp_GPIO_CRL &=~ ((0b1111) << (4*Local_u8Iteration));
+				temp_GPIO_CRL |= GPIO_Config->MOOD << (4*Local_u8Iteration);
+			}
+		}
+		GPIO_Config_Struct->GPIO_CRL = temp_GPIO_CRL;
+		if(GPIO_Config_Struct->GPIO_CRL == temp_GPIO_CRL){
 			Local_ErrorStatus= OK;
 		}
+
 	}else{
-		temp_GPIO_CRX = GPIO_Config_Struct->GIPO_CRH;
-		temp_GPIO_CRX &=~ ((0b1111) << (4*(GPIO_Config->PIN -8 )));
-		temp_GPIO_CRX |=GPIO_Config->MOOD << (4*(GPIO_Config->PIN -8));
-		GPIO_Config_Struct->GIPO_CRH = temp_GPIO_CRX;
-		if(GPIO_Config_Struct->GIPO_CRH == temp_GPIO_CRX){
+		temp_GPIO_CRL = GPIO_Config_Struct->GPIO_CRL;
+		for(Local_u8Iteration=0;Local_u8Iteration<8;Local_u8Iteration++){
+			if(( (GPIO_Config->PIN >> Local_u8Iteration) & 0x0001) == 1 ){
+				temp_GPIO_CRL &=~ ((0b1111) << (4*Local_u8Iteration));
+				temp_GPIO_CRL |= GPIO_Config->MOOD << (4*Local_u8Iteration);
+			}
+		}
+		GPIO_Config_Struct->GPIO_CRL = temp_GPIO_CRL;
+
+		temp_GPIO_CRH = GPIO_Config_Struct->GIPO_CRH;
+		for(Local_u8Iteration=0;Local_u8Iteration<8;Local_u8Iteration++){
+			if(( (GPIO_Config->PIN >> (Local_u8Iteration+8)) & 0x0001) == 1 ){
+				temp_GPIO_CRH &=~ ((0b1111) << (4*Local_u8Iteration));
+				temp_GPIO_CRH |= GPIO_Config->MOOD << (4*Local_u8Iteration);
+			}
+		}
+		GPIO_Config_Struct->GIPO_CRH = temp_GPIO_CRH;
+		if((GPIO_Config_Struct->GIPO_CRH == temp_GPIO_CRH) && (GPIO_Config_Struct->GPIO_CRL == temp_GPIO_CRL) ){
 			Local_ErrorStatus= OK;
 		}
 	}
 	return Local_ErrorStatus;
 }
 
-STD_ERROR GPIO_STD_ERROR_writePin(GPIO_t * GPIO_Config, u8 OutputValue){
+STD_ERROR GPIO_STD_ERROR_writePin(u32 PORT, u32 PIN, u8 OutputValue){
 	STD_ERROR Local_ErrorStatus = NOT_OK;
-	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*) GPIO_Config->PORT;
+	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*)PORT;
 	if(OutputValue == HIGH){
-		GPIO_Config_Struct->GPIO_BSRR = HIGH << (GPIO_Config->PIN);
+		GPIO_Config_Struct->GPIO_BSRR = PIN;
 	}else if(OutputValue == LOW){
-		GPIO_Config_Struct->GIPO_BRR = HIGH << (GPIO_Config->PIN);
+		GPIO_Config_Struct->GIPO_BRR = PIN;
 	}
-	if(GPIO_Config_Struct->GIPO_ODR == ( GPIO_Config_Struct->GIPO_ODR & (HIGH << (GPIO_Config->PIN)) )){
+	if(GPIO_Config_Struct->GIPO_ODR == ( GPIO_Config_Struct->GIPO_ODR & PIN )){
 		Local_ErrorStatus=OK;
 	}
 	Local_ErrorStatus=OK;
@@ -73,10 +96,10 @@ STD_ERROR GPIO_STD_ERROR_writePort(PORT_REGISTERS * PORT, u8 OutputValue){
 }
 
 
-u8 GPIO_u8getPinValue(GPIO_t * GPIO_Config){
+u8 GPIO_u8getPinValue(u32 PORT, u32 PIN){
 	u8 Local_ReturnValue=HIGH;
-	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*) GPIO_Config->PORT;
+	PORT_REGISTERS* GPIO_Config_Struct = (PORT_REGISTERS*) PORT;
 	//trace_printf("Pin Value %d \n", (GPIO_Config_Struct->GPIO_IDR >> GPIO_Config->PIN)&1);
-	Local_ReturnValue= (GPIO_Config_Struct->GPIO_IDR >> GPIO_Config->PIN)&HIGH;
+	Local_ReturnValue=((GPIO_Config_Struct->GPIO_IDR & PIN) >0) ? HIGH:LOW;
 	return Local_ReturnValue;
 }
