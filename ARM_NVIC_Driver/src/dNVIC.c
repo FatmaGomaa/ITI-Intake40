@@ -1,10 +1,16 @@
-/*
- * dNVIC.h
- *
- *  Created on: Feb 26, 2020
- *  Author: Fatma Gomaa
- *  V1 : Initial Creation of NVIC Driver.
- */
+/*******************************************************************************************************
+ * File name: dNVIC.c                                                                                  *
+ *                                                                                                     *
+ *                                                                                                     *
+ * Description: This file contains the implementation of the NVIC driver                               *
+ * and the macros used by the Programmer                                                               *
+ *                                                                                                     *
+ * Author: Fatima Gomaa                                                                                *
+ * Date:   Feb 26, 2020                                                                                *
+ * Version 1.0 : Initial Creation of the NVIC Driver                                                   *
+ *                                                                                                     *
+ * Version 1.1 : Documentation of the NVIC Driver                                                      *
+ *******************************************************************************************************/
 
 #include "STD_TYPES.h"
 #include "dNVIC.h"
