@@ -9,7 +9,8 @@
  * Date:   Feb 26, 2020                                                                                *
  * Version 1.0 : Initial Creation of the NVIC Driver                                                   *
  *                                                                                                     *
- * Version 1.1 : part of Documentation of the NVIC Driver                                                      *
+ * Version 1.1 : part of Documentation of the NVIC Driver                                              *
+ * Version 1.2 : finished Documentation of the NVIC Driver                                             *
  *******************************************************************************************************/
 
 #ifndef DNVIC_H_
@@ -120,9 +121,76 @@ STD_ERROR NVIC_controlIRQ(u8 IRQn, u8 state);
  * Description: a function that get the pending flag value.                                                                        *
  ***********************************************************************************************************************************/
 STD_ERROR NVIC_getPendingFlag (u8 IRQn, u8* PendingFlagValue);
+
+/***********************************************************************************************************************************
+ * Function name: NVIC_controlPendingIRQ                                                                                           *
+ *                                                                                                                                 *
+ * parameters:  Input:                                                                                                             *
+ *                 IRQn                                                                                                            *
+ *                     type: u8                                                                                                    *
+ *                     Description: Interrupt Number in the Interrupt Vector Table.                                                *
+ *                 state                                                                                                           *
+ *                     type: u8                                                                                                    *
+ *                     Description: decides whether the pending flag is written high or low, takes one of the following choices.   *
+ *                     				PENDING_ON                                                                                     *
+ *                     				PENDING_OFF                                                                                    *
+ *                                                                                                                                 *
+ *              Output:NA                                                                                                          *
+ *              In/out:NA                                                                                                          *
+ *                                                                                                                                 *
+ * return: STD_ERROR                                                                                                               *
+ * Description: a function that control the pending flag value whether it's high or low.                                           *
+ ***********************************************************************************************************************************/
 STD_ERROR NVIC_controlPendingIRQ (u8 IRQn, u8 state);
+
+/***********************************************************************************************************************************
+ * Function name: NVIC_ControlPRIMMASK                                                                                             *
+ *                                                                                                                                 *
+ * parameters:  Input:                                                                                                             *
+ *                 PRIMASK_STATUS                                                                                                  *
+ *                     type: u8                                                                                                    *
+ *                     Description: PRIMASK determines whether the Exceptions are enabled or not.                                  *
+ *                     				PRIMASK_ENABLE_ALL                                                                             *
+ *                     				PRIMASK_DISABLE_ALL                                                                            *                                                            *
+ *              Output:NA                                                                                                          *
+ *              In/out:NA                                                                                                          *
+ *                                                                                                                                 *
+ * return: void                                                                                                                    *
+ * Description: a function that control the PRIMASK value whether the Exceptions are enabled or not.                               *
+ ***********************************************************************************************************************************/
 void NVIC_ControlPRIMMASK(u8  PRIMASK_STATUS);
+
+/***********************************************************************************************************************************
+ * Function name: NVIC_ControlFAULTMASK                                                                                            *
+ *                                                                                                                                 *
+ * parameters:  Input:                                                                                                             *
+ *                 FAULTMASK_STATUS                                                                                                  *
+ *                     type: u8                                                                                                    *
+ *                     Description: FAULTMASK determines whether the Hard Fault Exception is enabled or not.                       *
+ *                     				FAULTMASK_ENABLE_ALL                                                                           *
+ *                     				FAULTMASK_DISABLE_ALL                                                                          *                                              *
+ *              Output:NA                                                                                                          *
+ *              In/out:NA                                                                                                          *
+ *                                                                                                                                 *
+ * return: void                                                                                                                    *
+ * Description: a function that control the FAULTMASK value whether the Exception is enabled or not.                               *
+ ***********************************************************************************************************************************/
 void NVIC_ControlFAULTMASK(u8 FAULTMASK_STATUS);
+
+/***********************************************************************************************************************************
+ * Function name: NVIC_ControlBASEPRI                                                                                              *
+ *                                                                                                                                 *
+ * parameters:  Input:                                                                                                             *
+ *                 PriorityLevel                                                                                                   *
+ *                     type: u8                                                                                                    *
+ *                     Description: it holds the Interrupt Level which is used to disable all other interrupts that have lower     *
+ *                     				priority.                                                                                      *
+ *              Output:NA                                                                                                          *
+ *              In/out:NA                                                                                                          *
+ *                                                                                                                                 *
+ * return: void                                                                                                                    *
+ * Description: a function that control the FAULTMASK value whether the Exception is enabled or not.                               *
+ ***********************************************************************************************************************************/
 void NVIC_ControlBASEPRI(u8 PriorityLevel);
 
 #endif /* DNVIC_H_ */
