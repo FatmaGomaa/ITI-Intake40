@@ -15,7 +15,8 @@
 #define SCHED_CONFIG_H_
 
 #define OS_TASKS_NUM										2
-#define OS_TICK_TIME_US										100
+/*Multiplier of the Timer Clock*/
+#define OS_TICK_TIME_US										250
 
 typedef struct{
 	Task_t * Task;

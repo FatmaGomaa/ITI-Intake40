@@ -47,8 +47,7 @@ STD_ERROR Sched_Init(void){
 		 SysTasks[Local_u8Iterator].TimeToExec = SysTasksInfo[Local_u8Iterator].FirstDelay;
 		 SysTasks[Local_u8Iterator].PeriodicTicks = SysTasks[Local_u8Iterator].Task->Task->Periodicity / OS_TICK_TIME_US;
 	 }
-	/*5. STK_start*/
-	 STK_Start();
+
 	 return Local_ErrorStatus;
 }
 
@@ -64,16 +63,16 @@ STD_ERROR Sched_Exec(void){
 			 SysTasks[Local_u8Iterator].TimeToExec --;
 		 }
 	 }
-	 if(OSFlag != 0){
-	 OSFlag--;
-	 }
+
 	 return Local_ErrorStatus;
 }
 
 STD_ERROR Sched_Start(void){
+	/*5. STK_start*/
+	 STK_Start();
 	while(1){
 		if(OSFlag){
-			OSFlag=0;
+			OSFlag--;
 			Sched_Exec();
 		}
 	}
