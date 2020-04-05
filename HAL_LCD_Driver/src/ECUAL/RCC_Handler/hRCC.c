@@ -100,19 +100,19 @@ void RCC_GetPeripheralClockMGZ(u8 peripheral, u8 * peripheralClock){
 
 	RCC_GetSystemClockMGZ(&SystemClock);
 
+	/*get AHP_DivisionFactor*/
+	RCC_GetHPRE(&Power);
+	Power = (Power >> AHP_SHIFT);
+	if(Power >= AHP_MAPPING_BASE){
+		Power -= AHP_SUBTRACTED_VALUE;
+		for (iterator =0 ; iterator < Power ; iterator++){
+			AHP_DivisionFactor *= iterator;
+		}
+	}
+
 	switch (peripheral) {
 	case AHP:
-		/*get AHP_DivisionFactor*/
-		RCC_GetHPRE(&Power);
-		Power = (Power >> AHP_SHIFT);
-		if(Power >= AHP_MAPPING_BASE){
-			Power -= AHP_SUBTRACTED_VALUE;
-			for (iterator =0 ; iterator < Power ; iterator++){
-				AHP_DivisionFactor *= iterator;
-			}
-		}
 		*peripheralClock =  AHP_DivisionFactor;
-
 		break;
 	case APB1:
 		/*get APB1_DivisionFactor*/
@@ -124,7 +124,7 @@ void RCC_GetPeripheralClockMGZ(u8 peripheral, u8 * peripheralClock){
 				APB1_DivisionFactor *= iterator;
 			}
 		}
-		*peripheralClock =  APB1_DivisionFactor;
+		*peripheralClock =  APB1_DivisionFactor * AHP_DivisionFactor;
 
 		break;
 	case APB2:
@@ -138,7 +138,7 @@ void RCC_GetPeripheralClockMGZ(u8 peripheral, u8 * peripheralClock){
 				APB2_DivisionFactor *= iterator;
 			}
 		}
-		*peripheralClock =  APB2_DivisionFactor;
+		*peripheralClock =  APB2_DivisionFactor * AHP_DivisionFactor;
 
 		break;
 	}
