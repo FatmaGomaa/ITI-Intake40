@@ -12,9 +12,8 @@
 /*  - ConfigPLL takes the System clock for Pll and selects the Mult Value                           */
 /*                                                                                                  */
 /****************************************************************************************************/
-
-#include "dRCC.h"
 #include "STD_TYPES.h"
+#include "dRCC.h"
 
 #define RCC_BASE_ADDRESS		0x40021000
 #define	RCC_CR					*((volatile u32*)(RCC_BASE_ADDRESS + 0X00))
@@ -50,13 +49,12 @@
 #define RCC_CFGR_PPRE2_CLEAR_MASK		    0XFFFFC7FF
 #define RCC_CFGR_ADCPRE_MASK		    	0X0000C000
 #define RCC_CFGR_ADCPRE_CLEAR_MASK		    0XFFFF3FFF
-#define RCC_CR_PLL_SRC_MASK					0x00010000
-#define RCC_CR_PLL_XTPRE_MASK				0x00020000
-#define RCC_CR_PLL_MUL_MASK					0x003C0000
-#define RCC_CR_PLL_MUL_CLEAR_MASK			0xFFC3FFFF
-#define RCC_CR_USB_PRE_MASK					0x00400000
-#define RCC_CR_PLL_MCO_MASK					0x07000000
-#define RCC_CR_PLL_MCO_CLEAR_MASK			0xF8FFFFFF
+#define RCC_CFGR_PLL_SRC_MASK				0x00010000
+#define RCC_CFGR_PLL_XTPRE_MASK				0x00020000
+#define RCC_CFGR_PLL_MUL_MASK				0x003C0000
+#define RCC_CFGR_PLL_MUL_CLEAR_MASK			0xFFC3FFFF
+#define RCC_CFGR_PLL_MCO_MASK				0x07000000
+#define RCC_CFGR_PLL_MCO_CLEAR_MASK			0xF8FFFFFF
 
 /*RCC_stdErrorControlClock enables or disables one of the three clocks based on the user input, which is one of the following:
  * First argument: is an object of the CLOCK_TYPE enum with one of the following values:  [HSI_ON,HSE_ON,PLL_ON]
@@ -123,16 +121,74 @@ STD_ERROR RCC_stdErrorSetSYSClock(u8 copy_u8SystemClock){
 }
 
 /*RCC_stdErrorGetSYSClock takes a pointer to variable that will store the value of selected system clock*/
-STD_ERROR RCC_stdErrorGetSYSClock(u8 *copy_u8SystemClock){
+STD_ERROR RCC_stdErrorGetSYSClock(u32 *copy_u8SystemClock){
 	STD_ERROR Local_ControlClockReturnStatus = OK;
-	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_SW_MASK);
-	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_SW_MASK) ){
+	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_SWS_MASK);
+	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_SWS_MASK) ){
 		return Local_ControlClockReturnStatus;
 	}
 	Local_ControlClockReturnStatus = NOT_OK;
 	return Local_ControlClockReturnStatus;
 }
 
+STD_ERROR RCC_GetPLLMUL(u32 *copy_u8SystemClock){
+	STD_ERROR Local_ControlClockReturnStatus = OK;
+	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PLL_MUL_MASK);
+	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PLL_MUL_MASK) ){
+		return Local_ControlClockReturnStatus;
+	}
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
+}
+
+STD_ERROR RCC_GetPLLSRC(u32 *copy_u8SystemClock){
+	STD_ERROR Local_ControlClockReturnStatus = OK;
+	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PLL_SRC_MASK);
+	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PLL_SRC_MASK) ){
+		return Local_ControlClockReturnStatus;
+	}
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
+}
+
+STD_ERROR RCC_GetPLLXTPRE(u32 *copy_u8SystemClock){
+	STD_ERROR Local_ControlClockReturnStatus = OK;
+	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PLL_XTPRE_MASK);
+	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PLL_XTPRE_MASK) ){
+		return Local_ControlClockReturnStatus;
+	}
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
+}
+
+STD_ERROR RCC_GetHPRE(u32 *copy_u8SystemClock){
+	STD_ERROR Local_ControlClockReturnStatus = OK;
+	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_HPRE_MASK);
+	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_HPRE_MASK) ){
+		return Local_ControlClockReturnStatus;
+	}
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
+}
+
+STD_ERROR RCC_GetPPRE1(u32 *copy_u8SystemClock){
+	STD_ERROR Local_ControlClockReturnStatus = OK;
+	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PPRE1_MASK);
+	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PPRE1_MASK) ){
+		return Local_ControlClockReturnStatus;
+	}
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
+}
+STD_ERROR RCC_GetPPRE2(u32 *copy_u8SystemClock){
+	STD_ERROR Local_ControlClockReturnStatus = OK;
+	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PPRE2_MASK);
+	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PPRE2_MASK) ){
+		return Local_ControlClockReturnStatus;
+	}
+	Local_ControlClockReturnStatus = NOT_OK;
+	return Local_ControlClockReturnStatus;
+}
 /*RCC_stdErrorConfigPLL takes one of the following values for
  * first argument:
  * RCC_stdErrorSetPLLSRC chooses the clock for PLL entry. The inputs are:
@@ -152,35 +208,35 @@ STD_ERROR RCC_stdErrorConfigPLL(u8 copy_u8PLLClockSource, u32 copy_u8PLLMultipli
 
 	switch(copy_u8PLLClockSource){
 	case PLLSRC_HSI_DIVIDED_BY_2:
-		RCC_CFGR &=~ RCC_CR_PLL_SRC_MASK;
+		RCC_CFGR &=~ RCC_CFGR_PLL_SRC_MASK;
 		local_temp = RCC_CFGR;
-		local_temp &= RCC_CR_PLL_MUL_CLEAR_MASK;
+		local_temp &= RCC_CFGR_PLL_MUL_CLEAR_MASK;
 		local_temp |= (copy_u8PLLMultiplicationFactor);
 		RCC_CFGR = local_temp;
-		//if((RCC_CFGR & RCC_CR_PLL_MUL_MASK) == (copy_u8PLLMultiplicationFactor)){
+		//if((RCC_CFGR & RCC_CFGR_PLL_MUL_MASK) == (copy_u8PLLMultiplicationFactor)){
 
 			return Local_ControlClockReturnStatus;
 		//}
 
 		break;
 	case PLLSRC_HSE:
-		RCC_CFGR |= RCC_CR_PLL_SRC_MASK;
+		RCC_CFGR |= RCC_CFGR_PLL_SRC_MASK;
 		local_temp = RCC_CFGR;
-		local_temp &=RCC_CR_PLL_MUL_CLEAR_MASK;
+		local_temp &=RCC_CFGR_PLL_MUL_CLEAR_MASK;
 		local_temp |= copy_u8PLLMultiplicationFactor;
 		RCC_CFGR = local_temp;
-		if((RCC_CFGR & RCC_CR_PLL_MUL_MASK) == copy_u8PLLMultiplicationFactor){
+		if((RCC_CFGR & RCC_CFGR_PLL_MUL_MASK) == copy_u8PLLMultiplicationFactor){
 			return Local_ControlClockReturnStatus;
 		}
 		break;
 	case PLLSRC_HSE_DIVIDED_BY_2:
-		RCC_CFGR |= RCC_CR_PLL_XTPRE_MASK;
-		RCC_CFGR |= RCC_CR_PLL_SRC_MASK;
+		RCC_CFGR |= RCC_CFGR_PLL_XTPRE_MASK;
+		RCC_CFGR |= RCC_CFGR_PLL_SRC_MASK;
 		local_temp = RCC_CFGR;
-		local_temp &=RCC_CR_PLL_MUL_CLEAR_MASK;
+		local_temp &=RCC_CFGR_PLL_MUL_CLEAR_MASK;
 		local_temp |= copy_u8PLLMultiplicationFactor;
 		RCC_CFGR = local_temp;
-		if((RCC_CFGR & RCC_CR_PLL_MUL_MASK) == copy_u8PLLMultiplicationFactor){
+		if((RCC_CFGR & RCC_CFGR_PLL_MUL_MASK) == copy_u8PLLMultiplicationFactor){
 			return Local_ControlClockReturnStatus;
 		}
 		break;

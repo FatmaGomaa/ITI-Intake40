@@ -100,7 +100,7 @@ STD_ERROR RCC_stdErrorControlClock(u8 copy_u8ClockType, u8 copy_u8ClockStatus);
 STD_ERROR RCC_stdErrorSetSYSClock(u8 copy_u8SystemClock);
 
 /*RCC_stdErrorGetSYSClock takes a pointer to variable that will store the value of selected system clock*/
-STD_ERROR RCC_stdErrorGetSYSClock(u8 *copy_u8SystemClock);
+STD_ERROR RCC_stdErrorGetSYSClock(u32 *copy_u8SystemClock);
 
 /*RCC_stdErrorConfigPLL takes one of the following values for
  * first argument:
@@ -120,6 +120,11 @@ STD_ERROR RCC_stdErrorConfigPLL(u8 copy_u8PLLClockSource, u32 copy_u8PLLMultipli
  * the third argument is the status of the Clock: ON or OFF*/
 STD_ERROR RCC_stdErrorControlPerihperal(u8 copy_u8Bus, u32 copy_u32Peripheral, u8 status);
 
-
+STD_ERROR RCC_GetPLLMUL(u32 *copy_u8SystemClock);
+STD_ERROR RCC_GetPLLSRC(u32 *copy_u8SystemClock);
+STD_ERROR RCC_GetPLLXTPRE(u32 *copy_u8SystemClock);
+STD_ERROR RCC_GetHPRE(u32 *copy_u8SystemClock);
+STD_ERROR RCC_GetPPRE1(u32 *copy_u8SystemClock);
+STD_ERROR RCC_GetPPRE2(u32 *copy_u8SystemClock);
 
 #endif /* DRCC_H_ */

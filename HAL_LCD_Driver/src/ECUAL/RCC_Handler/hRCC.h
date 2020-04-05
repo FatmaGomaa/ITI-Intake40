@@ -9,6 +9,8 @@
 #define ECUAL_RCC_HANDLER_HRCC_H_
 
 
+void RCC_GetSystemClockMGZ(u8 * systemClock);
+void RCC_GetPeripheralClockMGZ(u8 peripheral, u8 * peripheralClock);
 
 
 

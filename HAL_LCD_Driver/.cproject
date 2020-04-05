@@ -203,6 +203,7 @@
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\HAL_LCD_Driver\src\MCAL\USART&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\HAL_LCD_Driver\src\MCAL\NVIC&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\HAL_LCD_Driver\src\MCAL\RCC&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\HAL_LCD_Driver\src\ECUAL\RCC_Handler&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\HAL_LCD_Driver\src\Libraries&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\HAL_LCD_Driver\src\MCAL\GPIO&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
