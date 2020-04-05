@@ -32,12 +32,16 @@ Task_t SwitchTask = {&HSwitch_Debouncing,HSwitch_OS_Periodicity};
 
 void main(void)
 {
+	u8 SysClk = 0;
 	//GPIO_t	LED = {PORT_C, PIN_13, OUTPUT_GP_PUSH_PULL_2MHZ};
 
 	RCC_stdErrorControlClock(HSI_ON, ON);
 	RCC_stdErrorSetSYSClock(HSI_SW);
 	RCC_stdErrorControlPerihperal(APB2, RCC_APB2_CLOCK_PORT_A,  ON);
 	RCC_stdErrorControlPerihperal(APB2, RCC_APB2_CLOCK_PORT_C,  ON);
+
+	//RCC_GetSystemClockMGZ(&SysClk);
+	//RCC_GetPeripheralClockMGZ(APB2, &SysClk);
 
 	Sched_Init();
 	LCD_Init();

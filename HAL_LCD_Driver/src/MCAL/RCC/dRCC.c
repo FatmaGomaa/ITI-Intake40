@@ -133,7 +133,7 @@ STD_ERROR RCC_stdErrorGetSYSClock(u32 *copy_u8SystemClock){
 
 STD_ERROR RCC_GetPLLMUL(u32 *copy_u8SystemClock){
 	STD_ERROR Local_ControlClockReturnStatus = OK;
-	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PLL_MUL_MASK);
+	*copy_u8SystemClock = (RCC_CFGR & RCC_CFGR_PLL_MUL_MASK);
 	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PLL_MUL_MASK) ){
 		return Local_ControlClockReturnStatus;
 	}
@@ -143,7 +143,7 @@ STD_ERROR RCC_GetPLLMUL(u32 *copy_u8SystemClock){
 
 STD_ERROR RCC_GetPLLSRC(u32 *copy_u8SystemClock){
 	STD_ERROR Local_ControlClockReturnStatus = OK;
-	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PLL_SRC_MASK);
+	*copy_u8SystemClock = (RCC_CFGR & RCC_CFGR_PLL_SRC_MASK);
 	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PLL_SRC_MASK) ){
 		return Local_ControlClockReturnStatus;
 	}
@@ -153,7 +153,7 @@ STD_ERROR RCC_GetPLLSRC(u32 *copy_u8SystemClock){
 
 STD_ERROR RCC_GetPLLXTPRE(u32 *copy_u8SystemClock){
 	STD_ERROR Local_ControlClockReturnStatus = OK;
-	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PLL_XTPRE_MASK);
+	*copy_u8SystemClock = (RCC_CFGR & RCC_CFGR_PLL_XTPRE_MASK);
 	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PLL_XTPRE_MASK) ){
 		return Local_ControlClockReturnStatus;
 	}
@@ -163,7 +163,7 @@ STD_ERROR RCC_GetPLLXTPRE(u32 *copy_u8SystemClock){
 
 STD_ERROR RCC_GetHPRE(u32 *copy_u8SystemClock){
 	STD_ERROR Local_ControlClockReturnStatus = OK;
-	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_HPRE_MASK);
+	*copy_u8SystemClock = (RCC_CFGR & RCC_CFGR_HPRE_MASK);
 	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_HPRE_MASK) ){
 		return Local_ControlClockReturnStatus;
 	}
@@ -173,7 +173,7 @@ STD_ERROR RCC_GetHPRE(u32 *copy_u8SystemClock){
 
 STD_ERROR RCC_GetPPRE1(u32 *copy_u8SystemClock){
 	STD_ERROR Local_ControlClockReturnStatus = OK;
-	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PPRE1_MASK);
+	*copy_u8SystemClock = (RCC_CFGR & RCC_CFGR_PPRE1_MASK);
 	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PPRE1_MASK) ){
 		return Local_ControlClockReturnStatus;
 	}
@@ -182,7 +182,7 @@ STD_ERROR RCC_GetPPRE1(u32 *copy_u8SystemClock){
 }
 STD_ERROR RCC_GetPPRE2(u32 *copy_u8SystemClock){
 	STD_ERROR Local_ControlClockReturnStatus = OK;
-	*copy_u8SystemClock = (u8)(RCC_CFGR & RCC_CFGR_PPRE2_MASK);
+	*copy_u8SystemClock = (RCC_CFGR & RCC_CFGR_PPRE2_MASK);
 	if(*copy_u8SystemClock == (RCC_CFGR & RCC_CFGR_PPRE2_MASK) ){
 		return Local_ControlClockReturnStatus;
 	}
