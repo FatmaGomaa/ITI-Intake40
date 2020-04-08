@@ -1,9 +1,14 @@
-/*
- * hLCD_Config.c
- *
- *  Created on: Mar 24, 2020
- *      Author: FatmaGomaa
- */
+/*******************************************************************************************************
+ * File name: hLCD_config.c                                                                                   *
+ *                                                                                                     *
+ *                                                                                                     *
+ * Description: This file contains the Prototypes of the LCD driver funcitons                          *
+ * and the macros used by the user                                                                     *
+ *                                                                                                     *
+ * Author: Fatima Gomaa                                                                                *
+ * Date:   March 24, 2020                                                                              *
+ * Version 1.0 : Initial Creation of the NVIC Driver                                                   *
+ *******************************************************************************************************/
 
 #include "STD_TYPES.h"
 #include "dGPIO.h"

@@ -10,7 +10,7 @@
 
 #define NUM_OF_SWITCHES									1
 #define HSwitch_OS_Periodicity							20000 //20 ms
-#define HSwitch_OS_PeriodicTicks						10    //debouncing counter
+#define HSwitch_OS_PeriodicTicks						6    //debouncing counter
 
 typedef struct{
 	void* PORT;

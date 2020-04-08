@@ -1,16 +1,23 @@
-/*
- * hLCD.c
- *
- *  Created on: Mar 24, 2020
- *      Author: FatmaGomaa
- */
+/*******************************************************************************************************
+ * File name: hLCD.c                                                                                   *
+ *                                                                                                     *
+ *                                                                                                     *
+ * Description: This file contains the Prototypes of the LCD driver funcitons                          *
+ * and the macros used by the user                                                                     *
+ *                                                                                                     *
+ * Author: Fatima Gomaa                                                                                *
+ * Date:   March 24, 2020                                                                              *
+ * Version 1.0 : Initial Creation of the NVIC Driver                                                   *
+ *******************************************************************************************************/
+
+/********************* Includes ****************************/
 #include "STD_TYPES.h"
 #include "dGPIO.h"
 #include "dRCC.h"
 #include "hLCD_Config.h"
 #include "hLCD.h"
 
-
+/********************* Macros ****************************/
 #define LCD_VDD_RISING_TIME     16
 #define LOW                     0
 #define HIGH                    1
@@ -23,7 +30,12 @@
 #define DISPLAY_CLEAR_COMMAND						0x01
 #define ENTRY_MODE_SET_COMMAND						Conc(0b000001,LCD_INCREMENT_MODE,LCD_SHIFT_OPERATION,)
 
+/********************* Externs ****************************/
 extern LCD_GPIO_MAP_t APP_LCDs[LCD_DATA_PINS_NUM];
+extern u32 String[];
+
+/********************* Global Variables ****************************/
+
 GPIO_t LCD_GPIO_MAP[LCD_NUM];
 
 u8 Global_StringCopy[200];
@@ -35,7 +47,6 @@ u8 Global_Row;
 u32 GlobalInitCompleted = 0;
 process_t currentProcess;
 
-extern u32 String[];
 
 static void LCD_initProcess(void)
 {
