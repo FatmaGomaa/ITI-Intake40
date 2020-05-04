@@ -5,6 +5,9 @@ This Repo beside the pinned repos includes the work done during the ITI scholars
 https://github.com/FatmaGomaa/ITI-Intake40/tree/master/ARM_Drivers
 ```
 ### AVR Drivers
+```
+https://github.com/FatmaGomaa/ITI-Intake40/tree/master/AVR_Drivers
+```
 ### Java Assignments
 ```
 https://github.com/FatmaGomaa/ITI-Intake40/tree/master/Java%20Course%20Assignments
