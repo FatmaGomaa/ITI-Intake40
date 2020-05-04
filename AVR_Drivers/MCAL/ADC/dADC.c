@@ -10,7 +10,6 @@
 
 #define VREFERENCE_M						0b11000000
 
-
 #define ADC_MUX_M							0b00011111
 #define ADC_MUX_CLEAR_M							0b11100000
 
