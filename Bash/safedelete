@@ -1,0 +1,62 @@
+#!/bin/bash
+sudo find /home/TRASH -type f -atime +2 -exec rm -f {} \;
+echo "Files that were older than 48 hours had been deleted"
+
+cwd=$(pwd)
+cd ~
+cd ..
+
+if [ -e TRASH ]
+then
+	cd TRASH
+	echo "The TRASH already exists"
+
+else
+	sudo mkdir TRASH
+	cd TRASH
+	echo "The TRASH Created Successfully"
+fi 
+
+cd $cwd
+
+for i in  "$@" 
+do
+echo $i
+if [ -d "${i}"  ] 
+then
+	echo "it's a directory"
+	gzip -r $1
+	tar cvzf $i.tar.gz $i/
+	echo "Folder has been Gzipped"
+	sudo mv $i.tar.gz /home/TRASH
+	rm -r $i		
+	echo "Folder has been moved to TRASH sucessfully"
+
+else
+
+
+	if [ -e $i ]
+	then 
+		gzip $i
+		echo "file has been Gzipped"
+		sudo mv $i.gz /home/TRASH
+		echo "file has been moved to TRASH sucessfully"
+
+	elif [ -e $i.gz ]
+	then
+		echo "file already Gzipped"
+		sudo mv $i.gz /home/TRASH
+		echo "file has been moved to TRASH sucessfully"
+
+	elif [ `file $i | grep compressed` ]	
+	then
+		echo "file already Gzipped"
+		sudo mv $i /home/TRASH
+		echo "file has been moved to TRASH sucessfully"
+	else 
+		echo "file doesn't exist"
+	fi
+
+fi
+done
+
