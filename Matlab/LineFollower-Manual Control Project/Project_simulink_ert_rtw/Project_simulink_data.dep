@@ -1,0 +1,53 @@
+Project_simulink_data.o: Project_simulink_data.c Project_simulink.h \
+ rtwtypes.h I:/simulink/include/rtw_continuous.h \
+ G:/ITI/Matlab/FINALP~1/Project_simulink_ert_rtw/rtwtypes.h \
+ I:/simulink/include/rtw_solver.h I:/simulink/include/rtw_continuous.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/shared/svd/include/MW_PWM.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/shared/svd/include/MW_SVD.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/SUPPOR~1/ARDUIN~2/include/MW_arduino_digitalio.h \
+ Project_simulink_types.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/shared/svd/include/MW_SVD.h \
+ MW_target_hardware_resources.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/SUPPOR~1/ARDUIN~1/SCHEDU~1/include/arduinoAVRScheduler.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2018b/3P.instrset/arduinoide.instrset/arduino-1.8.1/hardware/arduino/avr/cores/arduino/Arduino.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2018b/3P.instrset/arduinoide.instrset/arduino-1.8.1/hardware/arduino/avr/cores/arduino/binary.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2018b/3P.instrset/arduinoide.instrset/arduino-1.8.1/hardware/arduino/avr/variants/standard/pins_arduino.h \
+ rtGetInf.h rt_nonfinite.h Project_simulink_private.h
+
+Project_simulink.h:
+
+rtwtypes.h:
+
+I:/simulink/include/rtw_continuous.h:
+
+G:/ITI/Matlab/FINALP~1/Project_simulink_ert_rtw/rtwtypes.h:
+
+I:/simulink/include/rtw_solver.h:
+
+I:/simulink/include/rtw_continuous.h:
+
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/shared/svd/include/MW_PWM.h:
+
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/shared/svd/include/MW_SVD.h:
+
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/SUPPOR~1/ARDUIN~2/include/MW_arduino_digitalio.h:
+
+Project_simulink_types.h:
+
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/shared/svd/include/MW_SVD.h:
+
+MW_target_hardware_resources.h:
+
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2018b/toolbox/target/SUPPOR~1/ARDUIN~1/SCHEDU~1/include/arduinoAVRScheduler.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2018b/3P.instrset/arduinoide.instrset/arduino-1.8.1/hardware/arduino/avr/cores/arduino/Arduino.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2018b/3P.instrset/arduinoide.instrset/arduino-1.8.1/hardware/arduino/avr/cores/arduino/binary.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2018b/3P.instrset/arduinoide.instrset/arduino-1.8.1/hardware/arduino/avr/variants/standard/pins_arduino.h:
+
+rtGetInf.h:
+
+rt_nonfinite.h:
+
+Project_simulink_private.h:
