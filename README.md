@@ -21,6 +21,22 @@ https://github.com/FatmaGomaa/ITI-Intake40/tree/master/C%2B%2B%20Course%20Assign
 https://github.com/FatmaGomaa/ITI-Intake40/tree/master/C%20Course%20Assignments
 ```
 ### Bash Scripts
+```
+https://github.com/FatmaGomaa/ITI-Intake40/tree/master/Bash
+```
 ### Batch Scripts
+```
+https://github.com/FatmaGomaa/ITI-Intake40/tree/master/Batch/Batch%20Assignment
+```
 ### Python Scripts
-### RTOS Assignments
+```
+https://github.com/FatmaGomaa/ITI-Intake40/tree/master/Python
+```
+### Matlab
+```
+https://github.com/FatmaGomaa/ITI-Intake40/tree/master/Matlab
+```
+### MakeFiles
+```
+https://github.com/FatmaGomaa/ITI-Intake40/tree/master/MakeFiles
+```
