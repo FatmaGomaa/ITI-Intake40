@@ -40,6 +40,8 @@
 #define TIFR_OCF0                  0b00000010
 #define TIFR_TOV0                  0b00000001
 
+#define ENABLED_INTERRUPTS		   0x00
+
 static void(*Timer_CBF)(void) = NULL;
 
 void Timer_Init(void){
@@ -48,11 +50,14 @@ void Timer_Init(void){
 	RegTemp = TIMER0_WAVEFORM_MODE | TIER0_COMPARE_MODE ;
 	TCCR0 = RegTemp;
 
+#if TIMER0_WAVEFORM_MODE != TIMER_WAVEFORM_NORMAL
+	OCR0 = TIMER0_COMPARE_MATCH_VALUE;
+#elif TIMER0_WAVEFORM_MODE == TIMER_WAVEFORM_NORMAL
 	/*Set Timer Counter to Preload Value*/
 	TCNT0 = TIMER0_PRELOAD_VALUE;
-
+#endif
 	/*Enable OVF Interrupt*/
-	TIMSK |= TIMSK_TOIE0;
+	TIMSK |= ENABLED_INTERRUPTS;
 
 	/*Enable Global Interrupt*/
 	SREG |= 0x80;
@@ -79,6 +84,8 @@ void Timer_SetCallBack(void(*CBF)(void)){
 
 void __vector_11(void) __attribute__((signal));
 void __vector_11(void){
+
+#if TIMER0_WAVEFORM_MODE == TIMER_WAVEFORM_NORMAL
 	static u16 Counter=0;
 	Counter++;
 	if(Counter == TIMER0_NUM_OF_OVERFLOWS){
@@ -88,5 +95,6 @@ void __vector_11(void){
 			Timer_CBF();
 		}
 	}
+#endif
 
 }
