@@ -28,6 +28,8 @@
 								<option id="de.innot.avreclipse.compiler.option.optimize.187012679" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize" useByScannerDiscovery="false"/>
 								<option id="de.innot.avreclipse.compiler.option.incpath.935337000" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\AVR_Drivers\App&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\AVR_Drivers\HAL\EEPROM&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\AVR_Drivers\MCAL\I2C&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\AVR_Drivers\HAL\CLCD&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\AVR_Drivers\HAL\Keypad&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;G:\Intake40_GitHub\AVR_Drivers\HAL\Nokia5110&quot;"/>
